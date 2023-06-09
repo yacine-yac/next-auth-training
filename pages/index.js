@@ -1,19 +1,16 @@
 import Navbar from "../__components/Navbar";
-import Welcom from "../__components/welcom";
-export const databaseId = process.env.NOTION_DATABASE_ID;
-
-export default function Home({ posts }) {
+import Login from "../__components/login";
+import Welcom from "../__components/welcom"; 
+import { useSession } from "next-auth/react";
+function Home() {
+  const session=useSession();
+  console.log('seee',session);
   return (<>
+            <h1>you are {session.data ? "IN" : "out"} </h1> 
             <Navbar />
-            <Welcom />
+          {session.data ? <Welcom /> : <Login />} 
   </> );
 }
 
-export const getStaticProps = async () => { 
-
-  return {
-    props: {
-      posts: [],
-    } 
-  };
-};
+Home.controlling=true;
+export default Home;
